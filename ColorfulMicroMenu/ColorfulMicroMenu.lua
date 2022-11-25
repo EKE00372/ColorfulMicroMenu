@@ -5,11 +5,11 @@
 -- Micro menu bar scale / 大小
 local barScale = 1.3
 -- Micro menu mouseover fade / 淡出
-local fadeOut = true
+local fadeOut = false
 -- Hide bags / 隱藏背包
-local hideBagbar = true
+local hideBagbar = false
 -- Move queue button to minimap / 隊列小眼睛移至小地圖
-local moveQueueButton = true
+local moveQueueButton = false
 
 -- Micro menu button color / 顏色
 local Colors = {
