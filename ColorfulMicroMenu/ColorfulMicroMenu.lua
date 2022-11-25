@@ -6,8 +6,11 @@
 local barScale = 1.3
 -- Micro menu mouseover fade / 淡出
 local fadeOut = true
--- Hide bags / 背包
+-- Hide bags / 隱藏背包
 local hideBagbar = true
+-- Move queue button to minimap / 隊列小眼睛移至小地圖
+local moveQueueButton = true
+
 -- Micro menu button color / 顏色
 local Colors = {
 	Character	= {0.35, 0.65, 1},
@@ -121,6 +124,24 @@ local function hideBags()
 		v.Show = dummy
 	end
 end
+
+local function QueueStatus()	
+	QueueStatusButton:SetParent(MinimapCluster)
+	QueueStatusButton:SetFrameLevel(999)
+	QueueStatusButton:SetScale(.8)
+	QueueStatusButton:ClearAllPoints()
+	QueueStatusButton:SetPoint("TOPLEFT", Minimap, 0, -16)
+	QueueStatusFrame:ClearAllPoints()
+	QueueStatusFrame:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -10, -2)
+	
+	QueueStatusButton:SetMovable(true)
+	QueueStatusButton:EnableMouse(true)
+	--QueueStatusButton:SetUserPlaced(true)
+	QueueStatusButton:RegisterForDrag("RightButton")
+	QueueStatusButton:SetScript("OnDragStart", function(self) self:StartMoving() end)
+	QueueStatusButton:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
+end
+
 --================================================--
 -----------------    [[ Load ]]    -----------------
 --================================================--
@@ -143,6 +164,7 @@ local function OnEvent()
 	
 	if fadeOut then mouseoverShow() end
 	if hideBagbar then hideBags() end
+	if moveQueueButton then QueueStatus() end
 end
 
 local frame = CreateFrame("FRAME", nil)
