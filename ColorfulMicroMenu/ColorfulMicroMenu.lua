@@ -3,7 +3,7 @@
 --==================================================--
 
 -- Micro menu bar scale / 大小
-local barScale = 1.3
+--local barScale = 1.3
 -- Micro menu mouseover fade / 淡出
 local fadeOut = false
 -- Hide bags / 隱藏背包
@@ -160,7 +160,7 @@ local function OnEvent()
 	Colored(HelpMicroButton, unpack(Colors.Help))
 	Colored(MainMenuMicroButton, unpack(Colors.MainMenu))
 	
-	MicroButtonAndBagsBar:SetScale(barScale)
+	--MicroButtonAndBagsBar:SetScale(barScale)
 	
 	if fadeOut then mouseoverShow() end
 	if hideBagbar then hideBags() end
