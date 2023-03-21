@@ -2,13 +2,6 @@
 -----------------    [[ Config ]]    -----------------
 --==================================================--
 
--- Micro menu mouseover fade and bag hide / 淡出選單和隱藏背包
-local fadeOut = true
--- Hide bags / 隱藏背包
-local hideBagbar = false
--- Move queue button to minimap / 隊列小眼睛移至小地圖
-local moveQueueButton = true
-
 -- Micro menu button color / 顏色
 local Colors = {
 	Character	= {0.35, 0.65, 1},
@@ -28,8 +21,6 @@ local Colors = {
 --=====================================================--
 -----------------    [[ variables ]]    -----------------
 --=====================================================--
-
-local MicroButtonAndBagsBar, UIFrameFadeOut = MicroButtonAndBagsBar, UIFrameFadeOut
 	
 local buttons = {
 	CharacterMicroButton,
@@ -46,8 +37,6 @@ local buttons = {
 	StoreMicroButton,
 }
 
-local dummy = function() end
-
 --====================================================--
 -----------------    [[ Function ]]    -----------------
 --====================================================--
@@ -59,36 +48,6 @@ local function Colored(button, r, g, b)
 			texture:SetVertexColor(r, g, b)
 		end
 	end
-end
-
-
-local function mouseoverShow()
-	BagsBar:Hide()
-	
-	for i,v in pairs(buttons) do
-		v:SetAlpha(0)
-		v:SetScript("OnEnter", function() UIFrameFadeIn(v, 0, 1, 1) end)
-		v:SetScript("OnLeave", function() UIFrameFadeOut(v, 1, 1, 0) end)
-	end
-end
-
-
-
-local function QueueStatus()	
-	QueueStatusButton:SetParent(MinimapCluster)
-	QueueStatusButton:SetFrameLevel(999)
-	QueueStatusButton:SetScale(.8)
-	QueueStatusButton:ClearAllPoints()
-	QueueStatusButton:SetPoint("TOPLEFT", Minimap, 0, -16)
-	QueueStatusFrame:ClearAllPoints()
-	QueueStatusFrame:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -10, -2)
-	
-	QueueStatusButton:SetMovable(true)
-	QueueStatusButton:EnableMouse(true)
-	--QueueStatusButton:SetUserPlaced(true)
-	QueueStatusButton:RegisterForDrag("RightButton")
-	QueueStatusButton:SetScript("OnDragStart", function(self) self:StartMoving() end)
-	QueueStatusButton:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
 end
 
 --================================================--
@@ -108,10 +67,6 @@ local function OnEvent()
 	Colored(StoreMicroButton, unpack(Colors.Store))
 	Colored(HelpMicroButton, unpack(Colors.Help))
 	Colored(MainMenuMicroButton, unpack(Colors.MainMenu))
-	
-	if fadeOut then mouseoverShow() end
-	if hideBagbar then BagsBar:Hide() end
-	if moveQueueButton then QueueStatus() end
 end
 
 local frame = CreateFrame("FRAME", nil)
