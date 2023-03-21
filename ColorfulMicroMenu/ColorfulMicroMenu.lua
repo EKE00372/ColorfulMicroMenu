@@ -2,14 +2,12 @@
 -----------------    [[ Config ]]    -----------------
 --==================================================--
 
--- Micro menu bar scale / 大小
---local barScale = 1.3
--- Micro menu mouseover fade / 淡出
-local fadeOut = false
+-- Micro menu mouseover fade and bag hide / 淡出選單和隱藏背包
+local fadeOut = true
 -- Hide bags / 隱藏背包
 local hideBagbar = false
 -- Move queue button to minimap / 隊列小眼睛移至小地圖
-local moveQueueButton = false
+local moveQueueButton = true
 
 -- Micro menu button color / 顏色
 local Colors = {
@@ -32,17 +30,7 @@ local Colors = {
 --=====================================================--
 
 local MicroButtonAndBagsBar, UIFrameFadeOut = MicroButtonAndBagsBar, UIFrameFadeOut
-
-local bagBars = {
-	MainMenuBarBackpackButton,
-	CharacterBag0Slot,
-	CharacterBag1Slot,
-	CharacterBag2Slot,
-	CharacterBag3Slot,
-	BagBarExpandToggle,
-	CharacterReagentBag0Slot,
-}
---[[	
+	
 local buttons = {
 	CharacterMicroButton,
 	SpellbookMicroButton,
@@ -57,7 +45,7 @@ local buttons = {
 	HelpMicroButton,
 	StoreMicroButton,
 }
-]]--	
+
 local dummy = function() end
 
 --====================================================--
@@ -73,57 +61,18 @@ local function Colored(button, r, g, b)
 	end
 end
 
+
 local function mouseoverShow()
-	-- init
-	MicroButtonAndBagsBar:SetAlpha(0)
-
-	--[[local function ShowBars()
-		MicroButtonAndBagsBar:SetAlpha(1)
-	end
+	BagsBar:Hide()
 	
-	local reset = 0
-	local function HideBars()
-		if MicroButtonAndBagsBar:IsMouseOver() then return end
-		if time() == reset then return end
-		MicroButtonAndBagsBar:SetAlpha(0)
-	end
-	
-	local function SetFadeTimer()
-		reset = time()
-		C_Timer.After(1.5, HideBars)
-	end
-	
-	MicroButtonAndBagsBar:SetScript("OnEnter", ShowBars)
-	MicroButtonAndBagsBar:SetScript("OnLeave", SetFadeTimer)
-	HideBars(MicroButtonAndBagsBar)]]--
-	
-	local reset
-	local function ShowBars()
-		if reset then reset:Cancel() end
-		MicroButtonAndBagsBar:SetAlpha(1)
-		-- refresh fade out when you mouseover back when it's fading
-		UIFrameFadeOut(MicroButtonAndBagsBar, 0, 1, 1)
-	end
-	
-	local function HideBars()
-		if MicroButtonAndBagsBar:IsMouseOver() then return end
-		UIFrameFadeOut(MicroButtonAndBagsBar, 1, 1, 0)
-	end
-	
-	local function SetFadeTimer()
-		reset = C_Timer.NewTimer(1, HideBars)
-	end
-	
-	MicroButtonAndBagsBar:SetScript("OnEnter", ShowBars)
-	MicroButtonAndBagsBar:SetScript("OnLeave", SetFadeTimer)
-end
-
-local function hideBags()
-	for i,v in pairs(bagBars) do
-		v:Hide()
-		v.Show = dummy
+	for i,v in pairs(buttons) do
+		v:SetAlpha(0)
+		v:SetScript("OnEnter", function() UIFrameFadeIn(v, 0, 1, 1) end)
+		v:SetScript("OnLeave", function() UIFrameFadeOut(v, 1, 1, 0) end)
 	end
 end
+
+
 
 local function QueueStatus()	
 	QueueStatusButton:SetParent(MinimapCluster)
@@ -160,10 +109,8 @@ local function OnEvent()
 	Colored(HelpMicroButton, unpack(Colors.Help))
 	Colored(MainMenuMicroButton, unpack(Colors.MainMenu))
 	
-	--MicroButtonAndBagsBar:SetScale(barScale)
-	
 	if fadeOut then mouseoverShow() end
-	if hideBagbar then hideBags() end
+	if hideBagbar then BagsBar:Hide() end
 	if moveQueueButton then QueueStatus() end
 end
 
