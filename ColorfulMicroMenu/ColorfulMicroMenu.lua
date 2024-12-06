@@ -5,6 +5,7 @@
 -- Micro menu button color / 顏色
 local Colors = {
 	Character	= {0.35, 0.65, 1},
+	Profession	= {0.1, 0.9, 0.9},
 	Spellbook	= {1, 0.58, 0.65},
 	Talent		= {0.21, 1, 0.95},
 	Achievement	= {1, 0.62, 0.1},
@@ -24,8 +25,8 @@ local Colors = {
 	
 local buttons = {
 	CharacterMicroButton,
-	SpellbookMicroButton,
-	TalentMicroButton,
+	ProfessionMicroButton,
+	PlayerSpellsMicroButton,
 	AchievementMicroButton,
 	QuestLogMicroButton,
 	GuildMicroButton,
@@ -56,8 +57,8 @@ end
 
 local function OnEvent()
 	Colored(CharacterMicroButton, unpack(Colors.Character))
-	Colored(SpellbookMicroButton, unpack(Colors.Spellbook))
-	Colored(TalentMicroButton, unpack(Colors.Talent))
+	Colored(ProfessionMicroButton, unpack(Colors.Profession))
+	Colored(PlayerSpellsMicroButton, unpack(Colors.Spellbook))
 	Colored(AchievementMicroButton, unpack(Colors.Achievement))
 	Colored(QuestLogMicroButton, unpack(Colors.QuestLog))
 	Colored(GuildMicroButton, unpack(Colors.Guild))
