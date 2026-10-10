@@ -1,0 +1,6 @@
+# Only publish the addon, root README and this ignore configuration.
+/*
+!/.gitignore
+!/README.md
+!/ColorfulMicroMenu/
+!/ColorfulMicroMenu/**
