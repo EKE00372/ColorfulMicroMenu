@@ -287,7 +287,6 @@ frame:SetScript("OnEvent", function(self)
 	end
 	]=]
 
-	hooksecurefunc("UpdateMicroButtons", StyleAllButtons)
 	-- 公會顏色需在重新套用
 	hooksecurefunc("LoadMicroButtonTextures", StyleButton)
 	StyleAllButtons()
