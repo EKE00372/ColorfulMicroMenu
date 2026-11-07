@@ -1,18 +1,16 @@
 local RETAIL_TEXTURE = [[Interface\AddOns\ColorfulMicroMenu\media\UIMicroMenu2x.blp]]
--- Forever 支援暫停；相關代碼及素材保留，不載入。
--- local FOREVER_TEXTURE = [[Interface\AddOns\ColorfulMicroMenu\media\UIMicroMenuC602x.blp]]
--- local IS_FOREVER = (WOW_PROJECT_ID == WOW_PROJECT_CAMELOT)
+local FOREVER_TEXTURE = [[Interface\AddOns\ColorfulMicroMenu\media\UIMicroMenuC602x.blp]]
+local IS_FOREVER = (WOW_PROJECT_ID == WOW_PROJECT_CAMELOT)
 
--- if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) and (WOW_PROJECT_ID ~= WOW_PROJECT_CAMELOT) then return end
-if WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then return end
+if (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) and not IS_FOREVER then return end
 
 -- Micro menu button colors / 按鈕顏色
 local COLORS = {
 	Character = {0.35, 0.65, 1},
 	Profession = {0.1, 0.9, 0.9},
 	Spellbook = {1, 0.58, 0.65},
-	-- Talent = {0.21, 1, 0.95},
-	-- Legacy = {1, 0.75, 0.25},
+	Talent = {0.21, 1, 0.95},
+	Legacy = {1, 0.75, 0.25},
 	Achievement = {1, 0.62, 0.1},
 	QuestLog = {0.96, 1, 0},
 	Housing = {0.75, 0.55, 1},
@@ -26,8 +24,6 @@ local COLORS = {
 }
 
 local MICRO_TEXTURE, MICRO_BUTTONS, ATLAS_COORDS
--- Forever 分支完整保留於註釋中；下方只啟用 Retail。
---[=[
 if IS_FOREVER then
 	MICRO_TEXTURE = FOREVER_TEXTURE
 	MICRO_BUTTONS = {
@@ -118,8 +114,6 @@ if IS_FOREVER then
 		["UI-HUD-MicroMenu-Housing-Up"] = {0.3232421875, 0.3857421875, 0.658203125, 0.818359375, RETAIL_TEXTURE},
 	}
 else
-]=]
-do
 	MICRO_TEXTURE = RETAIL_TEXTURE
 	MICRO_BUTTONS = {
 		{"CharacterMicroButton", COLORS.Character},
@@ -279,13 +273,13 @@ frame:SetScript("OnEvent", function(self)
 		button:HookScript("OnShow", StyleButton)
 	end
 
-	-- Forever 傳承的預留閃爍圖層特例一併停用。
-	--[=[
 	if IS_FOREVER then
-		-- 原生的傳承閃爍用了成就的圖示，改回去
+		-- Forever 沿用 ActionBar 的整排外框與底板；只隱藏這兩層裝飾。
+		MicroMenu.BorderArt:SetAlpha(0)
+		MicroMenu.BackgroundArt:SetAlpha(0)
+		-- 傳承預留的閃爍內容層沿用成就圖示，改回傳承圖示。
 		LegacyMicroButton.FlashContent:SetAtlas("UI-HUD-MicroMenu-Legacy-Mouseover")
 	end
-	]=]
 
 	-- 公會顏色需在重新套用
 	hooksecurefunc("LoadMicroButtonTextures", StyleButton)
